@@ -18,9 +18,17 @@
                     <div class="row m-0">
                         <!-- <div class="col-lg-6 col-md-6"> -->
                         <div class="col-lg-6 col-md-6">
-                            <div :class="{ error: v$.name.$errors.length }">
-                                <input v-model="data.name" placeholder="Name">
-                                <div class="input-errors" v-for="error of v$.name.$errors" :key="error.$uid">
+                            <div :class="{ error: v$.first_name.$errors.length }">
+                                <input v-model="data.first_name" placeholder="First Name">
+                                <div class="input-errors" v-for="error of v$.first_name.$errors" :key="error.$uid">
+                                    <div class="error-msg">{{ error.$message }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div :class="{ error: v$.last_name.$errors.length }">
+                                <input v-model="data.last_name" placeholder="Last Name">
+                                <div class="input-errors" v-for="error of v$.last_name.$errors" :key="error.$uid">
                                     <div class="error-msg">{{ error.$message }}</div>
                                 </div>
                             </div>
@@ -33,10 +41,18 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-12 col-md-6">
+                        <div class="col-lg-6 col-md-6">
                             <div :class="{ error: v$.password.$errors.length }">
                                 <input type="text" placeholder="Password" v-model="data.password" v-on:keyup="fetchPassword">
                                 <div class="input-errors" v-for="error of v$.password.$errors" :key="error.$uid">
+                                    <div class="error-msg">{{ error.$message }}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div :class="{ error: v$.telephone.$errors.length }">
+                                <input type="text" placeholder="Telephone" v-model="data.telephone">
+                                <div class="input-errors" v-for="error of v$.telephone.$errors" :key="error.$uid">
                                     <div class="error-msg">{{ error.$message }}</div>
                                 </div>
                             </div>
@@ -85,9 +101,11 @@ export default {
         const auth = useAuth();
         const fieldLength = ref(6)
         const data = reactive({
-            name: '',
+            first_name: '',
+            last_name: '',
             email: '',
             password:'',
+            telephone:'',
             // confirm: '',
         });
         const fetchPassword = () => {
@@ -97,9 +115,11 @@ export default {
         console.log(data.password);
         const rules = {
             
-            name: { required }, // Matches data.firstName
+            first_name: { required }, // Matches data.firstName
+            last_name: { required }, // Matches data.firstName
             email: { required, email }, // Matches data.lastName
             password: { required, minLength: minLength(fieldLength) }, // Matches data.lastName
+            telephone: { required }, // Matches data.lastName
              // Matches data.lastName
         }
             // console.log(data.password.value);

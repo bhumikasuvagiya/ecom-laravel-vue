@@ -100,19 +100,31 @@ export default {
             const output = await res.json();
             if (output.success) {
                 localStorage.setItem('token', output.token);
-                $('.success-area').css('display','block');
-                $('.error-area').css('display','none')
-                $('#message').text(output.message)
-                  setTimeout(function()
-						{
-							$('#message').stop().slideUp('slow');
-                            location.reload();
-						}, 2000);
+                location.reload();
+                swal({
+                    text: "Login Successfull",
+                    icon: "success",
+                    closeOnClickOutside: false,
+                });
+                // $('.success-area').css('display','block');
+                // $('.error-area').css('display','none')
+                // $('#message').text(output.message)
+                //   setTimeout(function()
+				// 		{
+				// 			$('#message').stop().slideUp('slow');
+                //             location.reload();
+				// 		}, 2000);
             } else {
-                $('.error-area').css('display','block')
-                $('.success-area').css('display','none');
-                $('#error-message').text(output.error)
+                // $('.error-area').css('display','block')
+                // $('.success-area').css('display','none');
+                // $('#error-message').text(output.error)
+                 swal({
+                    text: output.error,
+                    icon: "error",
+                    closeOnClickOutside: false,
+                });
                 return;
+                
             }
         }
         return {

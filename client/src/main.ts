@@ -10,6 +10,7 @@ import VueAxios from "vue-axios";
 import VueCookies from 'vue3-cookies';
 import middleware from "@grafikri/vue-middleware";
 import Vue3Storage, { StorageType } from "vue3-storage";
+import swal from 'sweetalert';
 
 
 

@@ -9,6 +9,7 @@ use App\Models\OrderItem;
 use App\Models\Subcategory;
 use App\Models\Product;
 use App\Models\Setting;
+use App\Models\Users;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -138,18 +139,23 @@ class FrontendApisController extends Controller
         // dd($request->all());
 
         $request->validate([
-            'name' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
             'email' => 'required',
             'password' => 'required',
         ]);
 
-        $hashed = Hash::make($request['password']);
+        $hashed = md5($request['password']);
        
-            $user = new User;
+            $user = new Users;
         
-        $user->name = $request['name'];
+        $user->first_name = $request['first_name'];
+        $user->last_name = $request['last_name'];
         $user->password = $hashed;
         $user->email = $request['email'];
+        $user->telephone = $request['telephone'];
+        $user->status = 1;
+        $user->creation_datetime = date('Y-m-d H:i:s');
         $user->save();
         return response()->json([
             'success' => true,
@@ -159,10 +165,13 @@ class FrontendApisController extends Controller
     public function login(Request $request)
     {
         $ori_password = md5($request['password']);
-        $user = User::where('email', $request['email'])->first();
-
-        if (! $user || !$ori_password == $user->password) {
-            return response()->json([
+        // $user = User::get();
+        $user = Users::where('email', $request['email'])->first();
+        
+        // return "SADasd".$user;
+        // if (! $user || !$ori_password == $user->password) {
+            if (! $user || ($ori_password == $user['password']) == false) {
+            return response()->json([ 
                 'success' => false,
                 'error' => 'The provided credentials are incorrect',
             ]);
@@ -191,7 +200,7 @@ class FrontendApisController extends Controller
         // // echo "<pre>"; print_r($access_token); die;
         $user_id = DB::table('personal_access_tokens')->where('token', $access_token)->first();
 
-        $user = User::where('email', $user_id->name)->first();
+        $user = Users::where('email', $user_id->name)->first();
 
         return response()->json([
             'success' => true,
@@ -206,13 +215,16 @@ class FrontendApisController extends Controller
         ]);
         $hashed = Hash::make($request['password']);
         if ($user_id) {
-            $user = User::find($user_id);
+            $user = Users::find($user_id);
         }
 
         $user->first_name = $request['first_name'];
         $user->last_name = $request['last_name'];
         $user->password = $hashed;
         $user->email = $request['email'];
+        $user->telephone = $request['telephone'];
+        $user->status = 1;
+        $user->creation_datetime = date('Y-m-d H:i:s');
         $user->save();
         return response()->json([
             'success' => true,

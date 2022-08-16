@@ -94,6 +94,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div :class="{ error: v$.telephone.$errors.length }">
+                                <input type="text" placeholder="Telephone" v-model="data.telephone">
+                                <div class="input-errors" v-for="error of v$.telephone.$errors" :key="error.$uid">
+                                    <div class="error-msg">{{ error.$message }}</div>
+                                </div>
+                            </div>
+                        </div>
     
                         <!-- <div class="col-lg-6 col-md-6">
     
@@ -174,6 +182,7 @@ export default {
             last_name: user.last_name,
             email: user.email,
             password: user.password,
+            telephone: user.telephone,
         });
 
         const rules = {
@@ -181,6 +190,7 @@ export default {
             last_name: { required }, // Matches data.firstName
             email: { required, email }, // Matches data.lastName
             password: { required, minLength: minLength(6) }, // Matches data.lastName
+            telephone: { required }, // Matches data.lastName
         }
         
         

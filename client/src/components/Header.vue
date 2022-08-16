@@ -210,6 +210,7 @@ const productTotal = computed(() => cartStore.productTotal);
 const logout = () => {
   auth.userLogout();
   router.push("/");
+   
 };
 
 

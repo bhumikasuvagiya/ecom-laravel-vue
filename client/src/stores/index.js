@@ -36,12 +36,19 @@ export const useAuth = defineStore({
             if (output.success) {
                 // this.isloading = false
                 // alert(output.message);
+                
                 data.name = '';
                 data.email = '';
                 data.password = '';
+                router.push('/login')
+
+                swal({
+                    text: output.success,
+                    icon: "success",
+                    closeOnClickOutside: false,
+                });
                 // this.message = output.success;
             
-                    // router.push('/login')
 
             } else {
                 // this.isloading = false
